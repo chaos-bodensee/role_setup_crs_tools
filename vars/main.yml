@@ -1,0 +1,23 @@
+---
+
+# base packages for crs scripts
+crs_base_packages:
+       - libconfig-inifiles-perl
+       - libfile-which-perl
+       - libipc-run-perl
+       - libproc-processtable-perl
+       - libxml-rpc-fast-perl
+       - libxml-simple-perl
+       - libmath-round-perl
+       - libdatetime-perl
+       - libboolean-perl
+       - libwww-curl-perl
+       - libjson-perl
+       - fuse-ts
+       - fuse
+       - cifs-utils
+       - ntfs-3g
+
+playbook_version_number: 8998 # should be over ninethousand!
+playbook_version_path: '/etc/ansible-version/role-crs-tools-scripte-whatever_chaos-bodensee_github.com.version' 
+

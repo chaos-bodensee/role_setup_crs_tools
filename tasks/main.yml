@@ -1,0 +1,56 @@
+---
+- name: install crs dependency packages
+  become: true
+  package:
+    name: "{{ crs_base_packages | flatten(levels=1) }}"
+    state: present
+
+- name: create /opt/crs/tools
+  become: true
+  file:
+    dest: '/opt/crs/tools'
+    state: directory
+
+- name: create /opt/crs/tmp
+  become: true
+  file:
+    dest: '/opt/crs/tmp'
+    state: directory
+
+- name: create /opt/crs/fuse
+  become: true
+  file:
+    dest: '/opt/crs/fuse'
+    state: directory
+
+- name: do the svn exist?
+  stat:
+    path: '/opt/crs/tools/tracker3.0/.svn'
+  register: tracker_svn_checkout
+
+- name: remove tracker svn checkout if present
+  become: true
+  file:
+    dest: '/opt/crs/tools/tracker3.0'
+    state: absent
+  when: tracker_svn_checkout.stat.exists | bool
+
+- name: checkout tools/tracker3.0
+  become: true
+  git:
+    repo: 'https://github.com/crs-tools/crs-scripts.git'
+    dest: /opt/crs/tools/tracker3.0
+    force: yes
+    version: master
+  tags:
+    - checkout
+    - pull
+
+- name: create/override screenrc scripts
+  become: true
+  template:
+    dest: '/opt/crs/tools/tracker3.0/screenrc-scripts'
+    src: 'screenrc-scripts.j2'
+    mode: 0644
+    owner: root
+    group: root

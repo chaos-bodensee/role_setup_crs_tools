@@ -1,0 +1,4 @@
+---
+# version check for this playbook
+submodules_versioncheck: true
+
